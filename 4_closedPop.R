@@ -15,7 +15,14 @@ mynit=myburn+mythin*1000
 yAug <- rbind(obs_phoque,matrix(0,ncol = ncol(obs_phoque),nrow = 300))
 wtAug <- c(wt_phoque,rep(NA,300))
 
-# Nimble model
+# prep data  ---------------------
+data<-list(yaug=as.matrix(yAug),wt=wtAug)
+const=list(nt = ncol(yAug),
+           M=nrow(yAug))
+
+
+# Nimble model   ---------
+# M0  -------
 M0 <- nimbleCode({
     # Priors
     omega ~ dunif(0, 1)
@@ -156,10 +163,6 @@ Mth_x <- nimbleCode({
 
 
 
-# prep data  ---------------------
-data<-list(yaug=as.matrix(yAug),wt=wtAug)
-const=list(nt = ncol(yAug),
-           M=nrow(yAug))
 
 # Initial values
 inits <- function() list(z = rep(1,nrow(yAug)),
@@ -237,7 +240,7 @@ JS <- nimbleCode({
         z[i,1] ~ dbern(nu[1])
         # Observation process
         mu1[i] <- z[i,1] * p[i,1] * w[i]
-        y[i,1] ~ dbern(mu1[i])
+        yaug[i,1] ~ dbern(mu1[i])
 
         # Subsequent occasions
         for (t in 2:nt){
@@ -247,7 +250,7 @@ JS <- nimbleCode({
             z[i,t] ~ dbern(mu2[i,t])
             # Observation process
             mu3[i,t] <- z[i,t] * p[i,t] * w[i]
-            y[i,t] ~ dbern(mu3[i,t])
+            yaug[i,t] ~ dbern(mu3[i,t])
         } #t
     } #i
 
