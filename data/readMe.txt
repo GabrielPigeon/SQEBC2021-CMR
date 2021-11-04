@@ -37,3 +37,17 @@ condition index
 - k = 11 annual observation periods 
 - n = 250 unique plants
 - n = 236 plants seen before the last observation time
+
+
+### geese
+0= not seen
+1 =seen at site A
+2 =seen at site B
+3 =seen at site C
+
+
+## titis
+Soory shearwaters that were kindly provided by David Fletcher. Birds are seen as breeders or non-breeders. 
+ 0= not seen
+ 1= seen as B 
+ 2= seen as NB
