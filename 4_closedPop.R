@@ -291,8 +291,8 @@ JS_out <- nimbleMCMC(
     data=data,constants =const,
     inits = inits,
     monitors =c("psi", "mean.p", "mean.phi", "b", "Nsuper", "N", "B", "nu"),
-    nburnin = myburn,thin = mythin, niter = mynit, nchains = 3,
-    # niter = 15000, nburnin = 5000, thin = 10,nchains = 3,
+    # nburnin = myburn,thin = mythin, niter = mynit, nchains = 3,
+    niter = 5000, nburnin = 3000, thin = 2,nchains = 2,
     WAIC=F,summary = T,samplesAsCodaMCMC = T
 )
 dur= Sys.time()-start
