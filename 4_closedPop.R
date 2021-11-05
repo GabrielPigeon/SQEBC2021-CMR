@@ -11,9 +11,9 @@ myburn=500
 mynit=myburn+mythin*1000
 
 
-# augmentation des data avec 300 phoque fictif
-yAug <- rbind(obs_phoque,matrix(0,ncol = ncol(obs_phoque),nrow = 300))
-wtAug <- c(wt_phoque,rep(NA,300))
+# augmentation des data avec 200 phoque fictif
+yAug <- rbind(obs_phoque,matrix(0,ncol = ncol(obs_phoque),nrow = 200))
+wtAug <- c(wt_phoque,rep(NA,200))
 
 # prep data  ---------------------
 data<-list(yaug=as.matrix(yAug),wt=wtAug)
@@ -277,7 +277,11 @@ JS <- nimbleCode({
     Nsuper <- sum(Nalive[1:M])         # Superpopulation size
 })
 
-inits <- function() list(z = matrix(1,nrow(yAug),ncol(yAug)),
+inits <- function() list(
+    psi=runif(1,0.2,0.7),
+    mean.p=runif(1,0.2,.5),
+    mean.phi=runif(1,0.2,.5),
+    z = matrix(1,nrow(yAug),ncol(yAug)),
                          w=rep(1,nrow(yAug))
                          )
 
@@ -288,7 +292,7 @@ JS_out <- nimbleMCMC(
     inits = inits,
     monitors =c("psi", "mean.p", "mean.phi", "b", "Nsuper", "N", "B", "nu"),
     nburnin = myburn,thin = mythin, niter = mynit, nchains = 3,
-    # niter = 3e+05, nburnin = 100000, thin = 100,nchains = 3,
+    # niter = 15000, nburnin = 5000, thin = 10,nchains = 3,
     WAIC=F,summary = T,samplesAsCodaMCMC = T
 )
 dur= Sys.time()-start

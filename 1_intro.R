@@ -56,6 +56,7 @@ mymcmcConf <- configureMCMC(mymodel)
 mymcmcConf$addMonitors(c("beta", "sigma"))
 
 myMCMC <- buildMCMC(mymcmcConf)
+
 #compile to C++
 Cmod <- compileNimble(mymodel)
 CMCMC <- compileNimble(myMCMC, project = mymodel)
