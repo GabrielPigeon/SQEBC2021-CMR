@@ -1,5 +1,14 @@
 # using nimble ecology for CJS
 library(nimbleEcology)
+library(tidyverse)
+library(nimble)
+library(here)
+library(ggmcmc)
+
+load(here('data','reindeer.Rdata'))
+mythin=1
+myburn=500
+mynit=myburn+mythin*1000
 
 CJS_tt_eco <- nimbleCode({
     for (t in 1:(n.occasions-1)){
@@ -35,8 +44,9 @@ CJS_tt_eco.dur <- Sys.time()-start
 
 
 tmp1 <- CJS_tt_eco.out$samples %>% ggs() %>%
-    filter(Parameter %in% paste0('phi[',1:25,']'))
-
+    filter(Parameter %in% paste0('phi[',1:25,']')) %>%
+    ggs_caterpillar(sort = F)
+tmp1
 
 # multi-site example ------------------------------------------------------
 
